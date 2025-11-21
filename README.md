@@ -2,12 +2,11 @@
 
 Stabiles Boilerplate mit fixierten Versionen für Code-Challenges.
 
-## ⚡ Setup (2 Befehle)
+## ⚡ Setup (1 Befehl!)
 
 **Windows:**
 ```cmd
 setup-windows.bat
-start-windows.bat
 ```
 
 **Mac/Linux:**
@@ -15,7 +14,7 @@ start-windows.bat
 chmod +x setup-mac-linux.sh && ./setup-mac-linux.sh
 ```
 
-**Fertig!** Backend läuft auf http://localhost:3000, Frontend auf http://localhost:4200
+**Das war's!** Backend läuft auf http://localhost:3000, Frontend auf http://localhost:4200
 
 ## 📋 Voraussetzungen
 
@@ -27,8 +26,7 @@ chmod +x setup-mac-linux.sh && ./setup-mac-linux.sh
 - **Angular 18** mit AG Grid (fixierte Versionen)
 - **NestJS 10** Backend (fixierte Versionen)
 - **SQLite** Datenbank (keine Installation nötig)
-- VS Code Konfiguration (Linting, Formatting)
-- Setup-Scripts für Windows/Mac/Linux
+- VS Code Konfiguration (Linting, Formatting, Debugging)
 
 ## 🗄️ Datenbank wechseln (optional)
 
@@ -36,13 +34,6 @@ Standard ist SQLite. Für MongoDB oder PostgreSQL in `.env` ändern:
 ```env
 DB_TYPE=mongodb    # oder postgresql
 ```
-
-## 📦 Was passiert beim Setup?
-
-1. Prüft Node.js Installation
-2. Erstellt `.env` von `.env.example`
-3. Installiert Dependencies (Backend + Frontend)
-4. Fertig!
 
 ## 🐛 Probleme?
 
@@ -64,6 +55,7 @@ cd frontend && rm -rf node_modules && npm install
 ```
 ├── frontend/          # Angular 18
 ├── backend/           # NestJS 10
+├── .vscode/           # VS Code Konfiguration
 ├── .env.example       # Environment Template
 ├── setup-windows.bat  # Windows Setup
 └── setup-mac-linux.sh # Mac/Linux Setup

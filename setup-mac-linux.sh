@@ -1,6 +1,5 @@
 #!/bin/bash
 # Mac/Linux Setup Script für Angular Boilerplate
-# Dieses Script installiert alle Dependencies und startet das Projekt
 
 set -e
 
@@ -43,9 +42,7 @@ echo "[3/5] Erstelle .env Datei..."
 if [ ! -f ".env" ]; then
     if [ -f ".env.example" ]; then
         cp .env.example .env
-        echo ".env Datei erstellt von .env.example"
-    else
-        echo "Warnung: .env.example nicht gefunden"
+        echo ".env Datei erstellt"
     fi
 else
     echo ".env Datei existiert bereits"
@@ -54,34 +51,16 @@ echo ""
 
 # Installiere Backend Dependencies
 echo "[4/5] Installiere Backend Dependencies..."
-if [ ! -d "backend" ]; then
-    echo "FEHLER: backend Ordner nicht gefunden!"
-    exit 1
-fi
-
 cd backend
-npm install
-if [ $? -ne 0 ]; then
-    echo "FEHLER: npm install im Backend fehlgeschlagen!"
-    exit 1
-fi
+npm install --silent
 cd ..
 echo "Backend Dependencies installiert!"
 echo ""
 
 # Installiere Frontend Dependencies
 echo "[5/5] Installiere Frontend Dependencies..."
-if [ ! -d "frontend" ]; then
-    echo "FEHLER: frontend Ordner nicht gefunden!"
-    exit 1
-fi
-
 cd frontend
-npm install
-if [ $? -ne 0 ]; then
-    echo "FEHLER: npm install im Frontend fehlgeschlagen!"
-    exit 1
-fi
+npm install --silent
 cd ..
 echo "Frontend Dependencies installiert!"
 echo ""
@@ -90,10 +69,44 @@ echo "========================================"
 echo "Setup erfolgreich abgeschlossen!"
 echo "========================================"
 echo ""
-echo "Nächste Schritte:"
-echo "1. Backend starten: cd backend && npm run start:dev"
-echo "2. Frontend starten: cd frontend && npm start"
-echo ""
-echo "Oder verwende die start-mac-linux.sh Datei!"
-echo ""
+echo "Projekt jetzt starten? (j/n)"
+read -p "Eingabe: " START
 
+if [[ "$START" == "j" || "$START" == "J" ]]; then
+    echo ""
+    echo "Starte Backend und Frontend..."
+    echo "Backend: http://localhost:3000"
+    echo "Frontend: http://localhost:4200"
+    echo ""
+    echo "Drücke Ctrl+C in beiden Terminals um zu beenden"
+    echo ""
+    
+    # Starte Backend im Hintergrund
+    cd backend
+    npm run start:dev &
+    BACKEND_PID=$!
+    cd ..
+    
+    sleep 3
+    
+    # Starte Frontend
+    cd frontend
+    npm start &
+    FRONTEND_PID=$!
+    cd ..
+    
+    echo ""
+    echo "✅ Beide Server laufen!"
+    echo ""
+    echo "Zum Beenden: Ctrl+C drücken"
+    
+    # Warte auf Benutzer-Interrupt
+    trap "kill $BACKEND_PID $FRONTEND_PID 2>/dev/null; echo ''; echo 'Server gestoppt!'; exit" INT TERM
+    wait
+else
+    echo ""
+    echo "Zum Starten:"
+    echo "1. Backend: cd backend && npm run start:dev"
+    echo "2. Frontend: cd frontend && npm start"
+    echo ""
+fi
