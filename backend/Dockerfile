@@ -1,0 +1,22 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm ci
+
+# Copy source code
+COPY . .
+
+# Create data directory for SQLite
+RUN mkdir -p /app/data
+
+# Expose port
+EXPOSE 3000
+
+# Start development server
+CMD ["npm", "run", "start:dev"]
+

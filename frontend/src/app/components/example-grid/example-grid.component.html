@@ -1,0 +1,20 @@
+<div class="example-grid-container">
+  <div class="grid-header">
+    <h2>Examples Grid</h2>
+    <button (click)="refreshGrid()" [disabled]="loading" class="refresh-btn">
+      {{ loading ? 'Loading...' : 'Refresh' }}
+    </button>
+  </div>
+
+  <div class="ag-theme-alpine" style="height: 500px; width: 100%;">
+    <ag-grid-angular
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [loading]="loading"
+      (gridReady)="onGridReady($event)"
+      class="ag-theme-alpine">
+    </ag-grid-angular>
+  </div>
+</div>
+
