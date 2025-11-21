@@ -80,26 +80,26 @@ if [[ "$START" == "j" || "$START" == "J" ]]; then
     echo ""
     echo "Drücke Ctrl+C in beiden Terminals um zu beenden"
     echo ""
-    
+
     # Starte Backend im Hintergrund
     cd backend
     npm run start:dev &
     BACKEND_PID=$!
     cd ..
-    
+
     sleep 3
-    
+
     # Starte Frontend
     cd frontend
     npm start &
     FRONTEND_PID=$!
     cd ..
-    
+
     echo ""
     echo "✅ Beide Server laufen!"
     echo ""
     echo "Zum Beenden: Ctrl+C drücken"
-    
+
     # Warte auf Benutzer-Interrupt
     trap "kill $BACKEND_PID $FRONTEND_PID 2>/dev/null; echo ''; echo 'Server gestoppt!'; exit" INT TERM
     wait
